@@ -1,0 +1,43 @@
+spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 50MB
+
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver     #  mysql驱动包
+    url: jdbc:mysql://localhost:3306/mydata?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: admin
+
+    druid:
+      filters: stat,wall # 监控，防火墙功能
+      filter:
+        stat:
+          slow-sql-millis: 1000 # 查找慢查询
+          log-slow-sql: true # 记录慢查询
+        wall: # 防火墙管理进入的sql
+          enabled: true
+          config:
+            drop-table-allow: false
+
+      aop-patterns: com.atguigu.springDemo.*
+      stat-view-servlet:  # 监控页设置
+        enabled: true
+        login-username: admin
+        login-password: admin
+        reset-enable: false
+      web-stat-filter: # web过滤器设置
+        enabled: true
+        exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*' # 过滤内容
+        url-pattern: /*  # 匹配模式
+
+  jdbc:
+    template:
+      query-timeout: 3
+mybatis:
+  # config-location: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath:mybatis/mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
